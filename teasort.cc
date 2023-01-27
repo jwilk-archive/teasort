@@ -122,10 +122,11 @@ int main(void)
   {
     int *p = new int[n];
     std::iota(p, p + n, 1);
-    std::random_shuffle(p, p + n);
     unsigned int cost = 0;
-    for (int i = 0; i < TEST_ITER; i++)
+    for (int i = 0; i < TEST_ITER; i++) {
+      std::random_shuffle(p, p + n);
       cost += teasort(p, p + n);
+    }
     double fcost = (double)cost / (double)TEST_ITER;
     printf("%8d\t%8.2fN\n", n, fcost / n);
     fflush(stdout);
