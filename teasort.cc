@@ -66,10 +66,10 @@ std::vector<Vertex*> dfs(Graph &graph)
   return result;
 }
 
-unsigned int teasort(int *p, int *q)
+uintmax_t teasort(int *p, int *q)
 {
   int n = q - p;
-  int m = 2 * n * std::ilogb((double)n);
+  uintmax_t m = static_cast<uintmax_t>(2) * n * std::ilogb((double)n);
 
   static std::random_device rdev;
   static std::default_random_engine rng(rdev());
@@ -122,7 +122,7 @@ int main(void)
   {
     int *p = new int[n];
     std::iota(p, p + n, 1);
-    unsigned int cost = 0;
+    uintmax_t cost = 0;
     for (int i = 0; i < TEST_ITER; i++) {
       std::random_shuffle(p, p + n);
       cost += teasort(p, p + n);
