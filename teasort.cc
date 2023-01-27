@@ -106,8 +106,6 @@ uintmax_t teasort(int *p, int *q)
     }
     t[j] = v;
   }
-  for (int i = 0; i < n; i++)
-    assert(t[i] <= t[i + 1]);
   std::copy(&t[1], &t[n + 1], p);
 
   return m;
@@ -126,6 +124,8 @@ int main(void)
     for (int i = 0; i < TEST_ITER; i++) {
       std::random_shuffle(p, p + n);
       cost += teasort(p, p + n);
+      for (int k = 0; k < n; k++)
+        assert(p[k] == k + 1);
     }
     double fcost = (double)cost / (double)TEST_ITER;
     printf("%8d\t%8.2fN\n", n, fcost / n);
