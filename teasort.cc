@@ -5,9 +5,7 @@
 #include <cstdio>
 #include <iterator>
 #include <vector>
-#include <ext/numeric>
-
-#define iota __gnu_cxx::iota
+#include <numeric>
 
 using namespace std;
 
@@ -121,7 +119,7 @@ int main(void)
   for (int n = TEST_MIN; ; n *= 2)
   {
     int *p = new int[n];
-    iota(p, p + n, 1);
+    std::iota(p, p + n, 1);
     random_shuffle(p, p + n);
     inv = 0;
     for (int i = 0; i < TEST_ITER; i++)
