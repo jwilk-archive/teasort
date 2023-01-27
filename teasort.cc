@@ -118,18 +118,16 @@ unsigned int teasort(int *p, int *q)
 
 int main(void)
 {
-  unsigned int inv;
-  double finv;
   for (int n = TEST_MIN; ; n *= 2)
   {
     int *p = new int[n];
     std::iota(p, p + n, 1);
     std::random_shuffle(p, p + n);
-    inv = 0;
+    unsigned int cost = 0;
     for (int i = 0; i < TEST_ITER; i++)
-      inv += teasort(p, p + n);
-    finv = (double)inv / (double)TEST_ITER;
-    printf("%8d\t%16.2f\n", n, finv);
+      cost += teasort(p, p + n);
+    double fcost = (double)cost / (double)TEST_ITER;
+    printf("%8d\t%16.2f\n", n, fcost);
     fflush(stdout);
   }
   return 0;
