@@ -127,7 +127,7 @@ int main(void)
     for (int i = 0; i < TEST_ITER; i++)
       cost += teasort(p, p + n);
     double fcost = (double)cost / (double)TEST_ITER;
-    printf("%8d\t%16.2f\n", n, fcost);
+    printf("%8d\t%8.2fN\n", n, fcost / n);
     fflush(stdout);
   }
   return 0;
