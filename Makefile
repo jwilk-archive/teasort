@@ -1,5 +1,4 @@
-CC = g++
-CFLAGS = -O3 -s -DNDEBUG
+CXXFLAGS = -O3 -s -DNDEBUG
 
 .PHONY: all
 all: teasort
@@ -11,8 +10,5 @@ test: teasort
 .PHONY: clean
 clean:
 	rm -f teasort
-
-teasort: teasort.cc
-	$(CC) $(CFLAGS) ${<} -o ${@}
 
 # vim:ts=4 sts=4 sw=4 noet
