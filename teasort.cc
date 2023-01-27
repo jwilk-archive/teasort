@@ -100,8 +100,11 @@ unsigned int teasort(int *p, int *q)
   {
     int j = i; 
     int v = t[i];
-    while (m++, t[j - 1] > v)
-      t[j] = t[--j];
+    while (m++, t[j - 1] > v) {
+      t[j] = t[j - 1];
+      j--;
+    }
+    t[j] = v;
   }
   for (int i = 0; i < n; i++)
     assert(t[i] <= t[i + 1]);
