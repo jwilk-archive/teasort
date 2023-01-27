@@ -106,7 +106,7 @@ uintmax_t teasort(int *p, int *q)
     }
     t[j] = v;
   }
-  std::copy(&t[1], &t[n + 1], p);
+  std::copy(t.begin() + 1, t.end(), p);
 
   return m;
 }
@@ -118,12 +118,12 @@ int main(void)
 {
   for (int n = TEST_MIN; ; n *= 2)
   {
-    int *p = new int[n];
-    std::iota(p, p + n, 1);
+    std::vector<int> p(n);
+    std::iota(p.begin(), p.end(), 1);
     uintmax_t cost = 0;
     for (int i = 0; i < TEST_ITER; i++) {
-      std::random_shuffle(p, p + n);
-      cost += teasort(p, p + n);
+      std::random_shuffle(p.begin(), p.end());
+      cost += teasort(&p[0], &p[0] + n);
       for (int k = 0; k < n; k++)
         assert(p[k] == k + 1);
     }
