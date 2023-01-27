@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <iterator>
-#include <vector>
 #include <numeric>
+#include <vector>
 
 struct Vertex
 {
