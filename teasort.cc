@@ -8,33 +8,35 @@
 #include <random>
 #include <vector>
 
+template <typename T>
 struct Vertex
 {
   typedef std::vector<Vertex*> Neighbours;
   unsigned int id;
-  void *value;
+  T value;
   bool visited;
   Neighbours neighbours;
   inline void visit() { visited = true; }
-  Vertex() { id = 0; value = NULL; visited = false; }
+  Vertex() { id = 0; visited = false; }
 };
 
+template <typename T>
 struct Graph
 {
-  typedef Vertex* iterator;
+  typedef Vertex<T>* iterator;
   size_t size;
-  Vertex* vertices;
+  Vertex<T>* vertices;
   Graph(unsigned int nsize)
   {
     size = nsize;
-    vertices = new Vertex[size];
+    vertices = new Vertex<T>[size];
     for (int i = 0; i < size; i++)
       vertices[i].id = i;
   }
   ~Graph(void) { delete[] vertices; }
   inline iterator begin(void) { return vertices; }
   inline iterator end(void) { return vertices + size; }
-  inline Vertex &operator[] (unsigned int n) { return vertices[n]; }
+  inline Vertex<T> &operator[] (unsigned int n) { return vertices[n]; }
   inline void add_edge(unsigned int x, unsigned int y)
   {
     assert(x < size && y < size);
@@ -42,23 +44,25 @@ struct Graph
   }
 };
 
-void dfs_visit(Vertex &u, std::vector<Vertex*> &result)
+template <typename T>
+void dfs_visit(Vertex<T> &u, std::vector<Vertex<T>*> &result)
 {
   assert(!u.visited);
   u.visit();
-  for (Vertex::Neighbours::iterator vpp = u.neighbours.begin(); vpp != u.neighbours.end(); vpp++)
+  for (auto vpp = u.neighbours.begin(); vpp != u.neighbours.end(); vpp++)
   {
-    Vertex &v = **vpp;
+    Vertex<T> &v = **vpp;
     if (!v.visited)
       dfs_visit(v, result);
   }
   result.push_back(&u);
 }
 
-std::vector<Vertex*> dfs(Graph &graph)
+template <typename T>
+std::vector<Vertex<T>*> dfs(Graph<T> &graph)
 {
-  std::vector<Vertex*> result;
-  for (Graph::iterator vp = graph.begin(); vp < graph.end(); vp++)
+  std::vector<Vertex<T>*> result;
+  for (auto vp = graph.begin(); vp < graph.end(); vp++)
   {
     if (!vp->visited)
       dfs_visit(*vp, result);
@@ -75,9 +79,9 @@ uintmax_t teasort(int *p, int *q)
   static std::default_random_engine rng(rdev());
   std::uniform_int_distribution<> rand(0, n - 1);
 
-  Graph graph(n);
+  Graph<int> graph(n);
   for (int i = 0; i < n; i++)
-    graph[i].value = p + i;
+    graph[i].value = p[i];
 
   for (int i = 0; i < m; i++)
   {
@@ -88,14 +92,14 @@ uintmax_t teasort(int *p, int *q)
     graph.add_edge(x, y);
   }
 
-  std::vector<Vertex*> result = dfs(graph);
+  std::vector<Vertex<int>*> result = dfs(graph);
 
   assert(result.size() == n);
 
   std::vector<int> t(n + 1);
   t[0] = std::numeric_limits<int>::min();
   for (int i = 0; i < n; i++)
-    t[i + 1] = *((int*)result[i]->value);
+    t[i + 1] = result[i]->value;
   for (int i = 2; i <= n; i++)
   {
     int j = i;
