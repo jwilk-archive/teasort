@@ -7,11 +7,9 @@
 #include <vector>
 #include <numeric>
 
-using namespace std;
-
 struct Vertex
 {
-  typedef vector<Vertex*> Neighbours;
+  typedef std::vector<Vertex*> Neighbours;
   unsigned int id;
   void *value;
   bool visited;
@@ -43,7 +41,7 @@ struct Graph
   }
 };
 
-void dfs_visit(Vertex &u, vector<Vertex*> &result)
+void dfs_visit(Vertex &u, std::vector<Vertex*> &result)
 {
   assert(!u.visited);
   u.visit();
@@ -56,9 +54,9 @@ void dfs_visit(Vertex &u, vector<Vertex*> &result)
   result.push_back(&u);
 }
 
-vector<Vertex*> dfs(Graph &graph)
+std::vector<Vertex*> dfs(Graph &graph)
 {
-  vector<Vertex*> result;
+  std::vector<Vertex*> result;
   for (Graph::iterator vp = graph.begin(); vp < graph.end(); vp++)
   {
     if (!vp->visited)
@@ -70,7 +68,7 @@ vector<Vertex*> dfs(Graph &graph)
 unsigned int teasort(int *p, int *q)
 {
   int n = q - p;
-  int m = 2 * n * ilogb((double)n);
+  int m = 2 * n * std::ilogb((double)n);
   
   Graph graph(n);
   for (int i = 0; i < n; i++)
@@ -81,11 +79,11 @@ unsigned int teasort(int *p, int *q)
     int x = rand() % n;
     int y = rand() % n;
     if (p[y] > p[x])
-      swap(x, y);
+      std::swap(x, y);
     graph.add_edge(x, y);
   }
 
-  vector<Vertex*> result = dfs(graph);
+  std::vector<Vertex*> result = dfs(graph);
  
   assert(result.size() == n);
   
@@ -102,7 +100,7 @@ unsigned int teasort(int *p, int *q)
   }
   for (int i = 0; i < n; i++)
     assert(t[i] <= t[i + 1]);
-  copy(t + 1, t + n + 1, p);
+  std::copy(t + 1, t + n + 1, p);
   delete[] t;
 
   return m;
@@ -120,7 +118,7 @@ int main(void)
   {
     int *p = new int[n];
     std::iota(p, p + n, 1);
-    random_shuffle(p, p + n);
+    std::random_shuffle(p, p + n);
     inv = 0;
     for (int i = 0; i < TEST_ITER; i++)
       inv += teasort(p, p + n);
