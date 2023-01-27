@@ -1,4 +1,4 @@
-CXXFLAGS = -O3 -s -DNDEBUG
+CXXFLAGS = -g -O2
 
 .PHONY: all
 all: teasort
