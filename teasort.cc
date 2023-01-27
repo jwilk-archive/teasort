@@ -24,10 +24,10 @@ struct Graph
   typedef Vertex* iterator;
   size_t size;
   Vertex* vertices;
-  Graph(unsigned int nsize) 
-  { 
-    size = nsize; 
-    vertices = new Vertex[size]; 
+  Graph(unsigned int nsize)
+  {
+    size = nsize;
+    vertices = new Vertex[size];
     for (int i = 0; i < size; i++)
       vertices[i].id = i;
   }
@@ -78,7 +78,7 @@ unsigned int teasort(int *p, int *q)
   Graph graph(n);
   for (int i = 0; i < n; i++)
     graph[i].value = p + i;
-  
+
   for (int i = 0; i < m; i++)
   {
     int x = rand(rng);
@@ -89,16 +89,16 @@ unsigned int teasort(int *p, int *q)
   }
 
   std::vector<Vertex*> result = dfs(graph);
- 
+
   assert(result.size() == n);
-  
+
   int *t = new int[n + 1];
   t[0] = std::numeric_limits<int>::min();
   for (int i = 0; i < n; i++)
     t[i + 1] = *((int*)result[i]->value);
   for (int i = 2; i <= n; i++)
   {
-    int j = i; 
+    int j = i;
     int v = t[i];
     while (m++, t[j - 1] > v) {
       t[j] = t[j - 1];
