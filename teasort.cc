@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <numeric>
+#include <random>
 #include <vector>
 
 struct Vertex
@@ -69,15 +70,19 @@ unsigned int teasort(int *p, int *q)
 {
   int n = q - p;
   int m = 2 * n * std::ilogb((double)n);
-  
+
+  static std::random_device rdev;
+  static std::default_random_engine rng(rdev());
+  std::uniform_int_distribution<> rand(0, n - 1);
+
   Graph graph(n);
   for (int i = 0; i < n; i++)
     graph[i].value = p + i;
   
   for (int i = 0; i < m; i++)
   {
-    int x = rand() % n;
-    int y = rand() % n;
+    int x = rand(rng);
+    int y = rand(rng);
     if (p[y] > p[x])
       std::swap(x, y);
     graph.add_edge(x, y);
@@ -111,7 +116,6 @@ unsigned int teasort(int *p, int *q)
 
 int main(void)
 {
-  srand(time(NULL));
   unsigned int inv;
   double finv;
   for (int n = TEST_MIN; ; n *= 2)
