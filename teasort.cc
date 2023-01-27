@@ -23,24 +23,23 @@ struct Vertex
 template <typename T>
 struct Graph
 {
-  typedef Vertex<T>* iterator;
+  typedef typename std::vector<Vertex<T>>::iterator iterator;
   size_t size;
-  Vertex<T>* vertices;
+  std::vector<Vertex<T>> vertices;
   Graph(unsigned int nsize)
+  : vertices(nsize)
   {
     size = nsize;
-    vertices = new Vertex<T>[size];
     for (int i = 0; i < size; i++)
       vertices[i].id = i;
   }
-  ~Graph(void) { delete[] vertices; }
-  inline iterator begin(void) { return vertices; }
-  inline iterator end(void) { return vertices + size; }
+  inline iterator begin(void) { return vertices.begin(); }
+  inline iterator end(void) { return vertices.end(); }
   inline Vertex<T> &operator[] (unsigned int n) { return vertices[n]; }
   inline void add_edge(unsigned int x, unsigned int y)
   {
     assert(x < size && y < size);
-    vertices[x].neighbours.push_back(vertices + y);
+    vertices[x].neighbours.push_back(&vertices[y]);
   }
 };
 
