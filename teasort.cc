@@ -92,7 +92,7 @@ unsigned int teasort(int *p, int *q)
   assert(result.size() == n);
   
   int *t = new int[n + 1];
-  t[0] = INT_MIN;
+  t[0] = std::numeric_limits<int>::min();
   for (int i = 0; i < n; i++)
     t[i + 1] = *((int*)result[i]->value);
   for (int i = 2; i <= n; i++)
